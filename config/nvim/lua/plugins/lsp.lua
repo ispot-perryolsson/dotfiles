@@ -1,31 +1,43 @@
 ---@diagnostic disable: undefined-global
 -- Mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
-local lsp_config = require('lspconfig')
-lsp_config.rust_analyzer.setup {
+vim.lsp.enable('rust_analyzer')
+vim.lsp.config('rust_analyzer', {
     settings = {
         ['rust-analyzer'] = {}
     }
-}
+})
 
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
-lsp_config.ts_ls.setup{
+vim.lsp.enable('ts_ls')
+vim.lsp.config('ts_ls', {
     capabilities = capabilities
-}
-lsp_config.lua_ls.setup{
+})
+--[[ vim.lsp.enable('ruby_lsp')
+vim.lsp.config('ruby_lsp', {
+    capabilities = capabilities,
+    init_options = {
+        formatter = 'standard',
+        linters = { 'standard' },
+    }
+}) ]]
+vim.lsp.enable('lua_ls')
+vim.lsp.config('lua_ls', {
     capabilities = capabilities
-}
-lsp_config.pyright.setup{
+})
+vim.lsp.enable('pyright')
+vim.lsp.config('pyright', {
     capabilities = capabilities
-}
-lsp_config.clangd.setup{
+})
+vim.lsp.enable('clangd')
+vim.lsp.config('clangd', {
     capabilities = capabilities
-}
-lsp_config.terraformls.setup{
+})
+vim.lsp.enable('terraformls')
+vim.lsp.config('terraformls', {
     capabilities = capabilities
-}
-
+})
 vim.keymap.set('n', '<leader><S-e>', vim.diagnostic.open_float)
 vim.keymap.set('n', '<leader>di', function() vim.diagnostic.jump{count = 1, float = true} end)
 vim.keymap.set('n', '<leader>do', function() vim.diagnostic.jump{count = -1, float = true} end)

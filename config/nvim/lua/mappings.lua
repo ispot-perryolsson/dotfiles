@@ -54,8 +54,8 @@ vim.keymap.set("v", "<leader>y", '"+y', opts)
 vim.keymap.set("v", "<leader>p", "\"_dP")
 
 -- terminal emulator
-vim.cmd("nnoremap <leader>t <C-W>s<C-W>j:terminal<CR> :resize 10<CR>")
-vim.keymap.set("t", "<ESC>", "<C-\\><C-n>", opts)
+-- vim.cmd("nnoremap <leader>t <C-W>s<C-W>j:terminal<CR> :resize 10<CR>")
+-- vim.keymap.set("t", "<ESC>", "<C-\\><C-n>", opts)
 
 vim.cmd("map Y y$")
 
@@ -67,3 +67,6 @@ end
 
 -- Set working directory to current file
 vim.keymap.set("n", "fd", get_buf_file_path, opts)
+
+-- folding
+vim.keymap.set("n", "<leader>z", "za", opts)

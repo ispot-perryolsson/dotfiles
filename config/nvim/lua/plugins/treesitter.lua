@@ -1,7 +1,7 @@
 ---@diagnostic disable: undefined-global
 require'nvim-treesitter.configs'.setup {
   -- A list of parser names, or "all"
-  ensure_installed = { "c", "lua", "rust", "java", "kotlin", "python" },
+  ensure_installed = { "c", "lua", "rust", "java", "kotlin", "python", "ruby", "html" },
 
   -- Install parsers synchronously (only applied to `ensure_installed`)
   sync_install = false,

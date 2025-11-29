@@ -14,18 +14,10 @@ if not vim.loop.fs_stat(lazypath) then
 	})
 end
 vim.opt.rtp:prepend(lazypath)
-
 vim.g.mapleader = " "
+
 local theme = require("plugins.theme")
-local plugin
-if theme[1][1] == "LazyVim/LazyVim" then
-    plugin = {}
-elseif #theme == 1 then
-    plugin = theme
-else
-    plugin = theme[1]
-end
-require("lazy").setup({
+local plugins = {
 	"mfussenegger/nvim-jdtls",
 	"williamboman/mason.nvim",
     { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
@@ -35,7 +27,6 @@ require("lazy").setup({
         priority = 1000,
         opts = {},
     },
-    plugin,
 	{
 		"christoomey/vim-tmux-navigator",
 		cmd = {
@@ -57,7 +48,7 @@ require("lazy").setup({
 	"b3nj5m1n/kommentary",
 	"mfussenegger/nvim-dap",
 	"rcarriga/nvim-dap-ui",
-	{ "nvim-treesitter/nvim-treesitter", ["do"] = ":TSUpdate" },
+	{ "nvim-treesitter/nvim-treesitter", branch = 'master', lazy = false, build = ":TSUpdate" },
 	"kyazdani42/nvim-web-devicons",
 	"kyazdani42/nvim-tree.lua",
 	"nvim-lua/plenary.nvim",
@@ -129,7 +120,12 @@ require("lazy").setup({
 		},
 	},
 	{ "folke/neodev.nvim", opts = {} },
-})
+}
+local all_themes = require('all-themes')
+for i = 1, #all_themes do
+    plugins[#plugins + 1] = all_themes[i]
+end
+require("lazy").setup(plugins)
 local colorscheme
 if #theme > 1 then
     colorscheme = theme[2]
