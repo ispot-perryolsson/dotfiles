@@ -1,0 +1,67 @@
+# Application bindings
+$terminal = uwsm app -- $TERMINAL
+$browser = omarchy-launch-browser
+
+bindd = SUPER, RETURN, Terminal, exec, $terminal --working-directory=$(omarchy-cmd-terminal-cwd)
+bindd = SUPER SHIFT ALT, return, Terminal, exec, $terminal -e tmux attach
+bindd = SUPER SHIFT, F, File manager, exec, uwsm app -- nautilus --new-window
+bindd = SUPER SHIFT, B, Browser, exec, $browser
+bindd = SUPER SHIFT ALT, B, Browser (private), exec, $browser --private
+bindd = SUPER SHIFT ALT, M, Music, exec, uwsm app -- spotify
+bindd = SUPER SHIFT ALT, N, Neovim, exec, $terminal -e nvim
+bindd = SUPER SHIFT, T, Activity, exec, $terminal -e btop
+bindd = SUPER SHIFT, D, Docker, exec, $terminal -e lazydocker
+bindd = SUPER SHIFT, G, Signal, exec, omarchy-launch-or-focus signal "uwsm app -- signal-desktop"
+bindd = SUPER SHIFT, O, Obsidian, exec, omarchy-launch-or-focus obsidian "uwsm app -- obsidian -disable-gpu --enable-wayland-ime"
+bindd = SUPER SHIFT, slash, Passwords, exec, uwsm app -- 1password
+
+# If your web app url contains #, type it as ## to prevent hyperland treat it as comments
+bindd = SUPER SHIFT, A, ChatGPT, exec, omarchy-launch-webapp "https://chatgpt.com"
+bindd = SUPER SHIFT ALT, A, Grok, exec, omarchy-launch-webapp "https://grok.com"
+bindd = SUPER SHIFT, C, Calendar, exec, omarchy-launch-webapp "https://app.hey.com/calendar/weeks/"
+bindd = SUPER SHIFT, E, Email, exec, omarchy-launch-webapp "https://gmail.com"
+bindd = SUPER SHIFT, Y, YouTube, exec, omarchy-launch-webapp "https://youtube.com/"
+bindd = SUPER SHIFT ALT, G, WhatsApp, exec, omarchy-launch-or-focus-webapp WhatsApp "https://web.whatsapp.com/"
+bindd = SUPER SHIFT CTRL, G, Google Messages, exec, omarchy-launch-or-focus-webapp "Google Messages" "https://messages.google.com/web/conversations"
+bindd = SUPER SHIFT, X, X, exec, omarchy-launch-webapp "https://x.com/"
+bindd = SUPER SHIFT ALT, X, X Post, exec, omarchy-launch-webapp "https://x.com/compose/post"
+
+# Overwrite existing bindings, like putting Omarchy Menu on Super + Space
+
+# Move focus with SUPER + arrow keys
+unbind = SUPER SHIFT, H
+bindd = SUPER SHIFT, H, Move focus left, movefocus, l
+unbind = SUPER SHIFT, L
+bindd = SUPER SHIFT, L, Move focus right, movefocus, r
+unbind = SUPER SHIFT, K
+bindd = SUPER SHIFT, K, Move focus up, movefocus, u
+unbind = SUPER SHIFT, J
+bindd = SUPER SHIFT, J, Move focus down, movefocus, d
+
+unbind = SUPER SHIFT, up
+bindd = SUPER SHIFT, up, Toggle split, togglesplit, # dwindle
+
+# Clamshell mode
+bindl=,switch:off:Lid Switch,exec,~/.config/hypr/clamshell_mode.sh open
+bindl=,switch:on:Lid Switch,exec,~/.config/hypr/clamshell_mode.sh close
+bind=SUPER SHIFT ALT,C,exec,~/.config/hypr/clamshell_mode.sh close
+
+# Rebind fullscreen
+unbind = SUPER SHIFT, F
+bindd = SUPER SHIFT, F, Force full screen, fullscreen, 0
+
+bind = SUPER SHIFT ALT, H, movewindow, mon:desc:Dell Inc. Dell AW2518H 5WCM598O0RCU
+bind = SUPER SHIFT ALT, L, movewindow, mon:desc:LG Electronics LG ULTRAGEAR 305MXEZ1N020
+
+bind = SUPER SHIFT CTRL, H, focusmonitor, desc:Dell Inc. Dell AW2518H 5WCM598O0RCU 
+bind = SUPER SHIFT CTRL, L, focusmonitor, desc:LG Electronics LG ULTRAGEAR 305MXEZ1N020
+
+# Minimize (move to special workspace)
+bind = SUPER SHIFT, M, exec, ~/.config/hypr/move_all_windows.sh
+# Restore (bring back to current workspace)
+bind = SUPER SHIFT ALT, M, exec, ~/.config/hypr/move_all_windows.sh 9 
+bind = SUPER SHIFT CTRL, M, movetoworkspacesilent, 9
+bind = SUPER SHIFT, S, togglespecialworkspace, magic
+
+bindd = SUPER SHIFT, N, Cycle to next window, cyclenext
+bindd = SUPER SHIFT, P, Cycle to prev window, cyclenext, prev
