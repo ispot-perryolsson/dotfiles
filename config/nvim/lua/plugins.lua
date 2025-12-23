@@ -120,6 +120,12 @@ local plugins = {
 		},
 	},
 	{ "folke/neodev.nvim", opts = {} },
+    {
+      "supermaven-inc/supermaven-nvim",
+      config = function()
+        require("supermaven-nvim").setup({})
+      end,
+    },
 }
 local all_themes = require('all-themes')
 for i = 1, #all_themes do
