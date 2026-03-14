@@ -12,7 +12,7 @@ vim.keymap.set("n", "q", ":q<CR>", get_opts("quit"))
 vim.keymap.set("n", "<leader>s", ":w<CR>", get_opts("save file"))
 vim.keymap.set("n", "<leader>ls", ":edit $HOME/.config/nvim/lua/config.lua<CR>", get_opts("Edit config.lua"))
 vim.keymap.set("n", "<leader>nt", ":help nvim-tree-setup<CR>", get_opts("Nvim tree setup help"))
-vim.keymap.set("n", "<leader>h", ":noh<CR>", get_opts("No highlight"))
+vim.keymap.set("n", "<leader>n", ":noh<CR>", get_opts("No highlight"))
 vim.keymap.set("i", "jk", "<ESC>", opts)
 
 local print_working_directory = function()
@@ -29,8 +29,8 @@ vim.keymap.set("n", "<leader>wd", ":lcd %:p:h<CR>", opts)
 -- split resizing
 vim.keymap.set("n", "<A-=>", ":res +5<CR>", opts)
 vim.keymap.set("n", "<A-->", ":res -5<CR>", opts)
-vim.keymap.set("n", "=", ":vertical res +15<CR>", opts)
-vim.keymap.set("n", "-", ":vertical res -15<CR>", opts)
+vim.keymap.set("n", "+", ":vertical res +15<CR>", opts)
+vim.keymap.set("n", "_", ":vertical res -15<CR>", opts)
 
 -- split movements
 vim.keymap.set("n", "<C-h>", ":TmuxNavigateLeft<CR>")

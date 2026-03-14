@@ -22,3 +22,6 @@ bindings = [
 { key = "k", mods = "Alt", action = "ScrollLineUp" },
 { key = "j", mods = "Alt", action = "ScrollLineDown" },
 ]
+
+[terminal]
+osc52 = "CopyPaste"
