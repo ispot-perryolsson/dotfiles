@@ -63,7 +63,7 @@ dap.configurations.cpp = {
 } ]]
 dap.configurations.rust = dap.configurations.cpp
 dap.configurations.c = dap.configurations.cpp
---[[ 
+--[[
 *************************PYTHON*******************************
 --]]
 local venv = os.getenv("VIRTUAL_ENV")
@@ -72,6 +72,7 @@ dap.adapters.python = {
   command = string.format("%s/bin/python",venv);
   args = { '-m', 'debugpy.adapter' };
 }
+
 dap.configurations.python = {
   {
     -- The first three options are required by nvim-dap

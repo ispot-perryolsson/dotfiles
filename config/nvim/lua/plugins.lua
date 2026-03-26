@@ -18,8 +18,13 @@ vim.g.mapleader = " "
 
 local theme = require("plugins.theme")
 local plugins = {
-	"mfussenegger/nvim-jdtls",
-	"williamboman/mason.nvim",
+	"mfussenegger/nvim-dap",
+    { 
+        "mfussenegger/nvim-jdtls",
+        dependencies = { "mfussenegger/nvim-dap" },
+        ft = { "java" }
+    },
+    "williamboman/mason.nvim",
     { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
     {
         "folke/tokyonight.nvim",
@@ -46,7 +51,6 @@ local plugins = {
 		},
 	},
 	"b3nj5m1n/kommentary",
-	"mfussenegger/nvim-dap",
 	"rcarriga/nvim-dap-ui",
 	{ "nvim-treesitter/nvim-treesitter", branch = 'master', lazy = false, build = ":TSUpdate" },
 	"kyazdani42/nvim-web-devicons",
@@ -130,6 +134,7 @@ local plugins = {
         })
       end,
     },
+    require("plugins.metals")
 }
 local all_themes = require('all-themes')
 for i = 1, #all_themes do

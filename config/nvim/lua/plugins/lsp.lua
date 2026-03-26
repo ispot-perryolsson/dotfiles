@@ -38,6 +38,10 @@ vim.lsp.enable('terraformls')
 vim.lsp.config('terraformls', {
     capabilities = capabilities
 })
+vim.lsp.config("jdtls", {
+    capabilities = capabilities,
+})
+vim.lsp.enable("jdtls")
 vim.keymap.set('n', '<leader><S-e>', vim.diagnostic.open_float)
 vim.keymap.set('n', '<leader>di', function() vim.diagnostic.jump{count = 1, float = true} end)
 vim.keymap.set('n', '<leader>do', function() vim.diagnostic.jump{count = -1, float = true} end)
@@ -49,19 +53,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
     callback = function(ev)
         vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
         local opts = { buffer = ev.buf }
-        vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
-        vim.keymap.set('n', 'gd', vim.lsp.buf.definition, opts)
-        vim.keymap.set('n', '<leader>k', vim.lsp.buf.hover, opts)
-        vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, opts)
-        vim.keymap.set('n', '<leader><C-k>', vim.lsp.buf.signature_help, opts)
-        vim.keymap.set('n', '<leader>wa', vim.lsp.buf.add_workspace_folder, opts)
-        vim.keymap.set('n', '<leader>wr', vim.lsp.buf.remove_workspace_folder, opts)
-        vim.keymap.set('n', '<leader>wl', function()
-        print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-        end, opts)
-        vim.keymap.set('n', '<leader>D', vim.lsp.buf.type_definition, opts)
-        vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
-        vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, opts)
-        vim.keymap.set('n', 'gr', "<cmd>Telescope lsp_references<cr>", opts)
+        require('plugins.util').register_lsp_keybinds(opts)
     end
 })
