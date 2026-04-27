@@ -57,7 +57,6 @@ local plugins = {
 	"b3nj5m1n/kommentary",
 	"rcarriga/nvim-dap-ui",
 	"kyazdani42/nvim-web-devicons",
-	"kyazdani42/nvim-tree.lua",
 	"nvim-lua/plenary.nvim",
 	"neovim/nvim-lspconfig",
     {
@@ -76,6 +75,17 @@ local plugins = {
 	"saadparwaiz1/cmp_luasnip",
 	"L3MON4D3/LuaSnip",
     {
+      'stevearc/oil.nvim',
+      ---@module 'oil'
+      ---@type oil.SetupOpts
+      opts = {},
+      -- Optional dependencies
+      dependencies = { { "nvim-mini/mini.icons", opts = {} } },
+      -- dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if you prefer nvim-web-devicons
+      -- Lazy loading is not recommended because it is very tricky to make it work correctly in all situations.
+      lazy = false,
+    },
+    {
         'nvim-telescope/telescope.nvim', version = '*',
         dependencies = {
             'nvim-lua/plenary.nvim',
@@ -92,10 +102,10 @@ local plugins = {
 	},
 	"kyazdani42/nvim-web-devicons",
     {
-        'nvim-treesitter/nvim-treesitter',
-        tag = "v0.10.0",
-        lazy = false,
-        build = ':TSUpdate'
+    
+      'nvim-treesitter/nvim-treesitter',
+      lazy = false,
+      build = ':TSUpdate'
     },
 	"wbthomason/packer.nvim",
 	"lewis6991/gitsigns.nvim",
