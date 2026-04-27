@@ -15,8 +15,12 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 vim.g.mapleader = " "
+local theme_ok, theme = pcall(require, "plugins.theme")
+if not theme_ok then
+	-- Fallback to tokyonight if the theme symlink is missing
+	theme = { { "folke/tokyonight.nvim", lazy = false, priority = 1000, opts = { colorscheme = "tokyonight" } } }
+end
 
-local theme = require("plugins.theme")
 local plugins = {
 	"mfussenegger/nvim-dap",
     { 
@@ -52,16 +56,18 @@ local plugins = {
 	},
 	"b3nj5m1n/kommentary",
 	"rcarriga/nvim-dap-ui",
-	{ "nvim-treesitter/nvim-treesitter", branch = 'master', lazy = false, build = ":TSUpdate" },
 	"kyazdani42/nvim-web-devicons",
 	"kyazdani42/nvim-tree.lua",
 	"nvim-lua/plenary.nvim",
-	{
-		"nvim-telescope/telescope.nvim",
-		tag = "0.1.8",
-		dependencies = { "nvim-lua/plenary.nvim" },
-	},
 	"neovim/nvim-lspconfig",
+    {
+        'nvim-telescope/telescope.nvim', version = '*',
+        dependencies = {
+            'nvim-lua/plenary.nvim',
+            -- optional but recommended
+            { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
+        }
+    },
 	"hrsh7th/nvim-cmp",
 	"hrsh7th/cmp-nvim-lsp",
 	"hrsh7th/cmp-buffer",
@@ -69,6 +75,14 @@ local plugins = {
 	"hrsh7th/cmp-cmdline",
 	"saadparwaiz1/cmp_luasnip",
 	"L3MON4D3/LuaSnip",
+    {
+        'nvim-telescope/telescope.nvim', version = '*',
+        dependencies = {
+            'nvim-lua/plenary.nvim',
+            -- optional but recommended
+            { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
+        }
+    },
 	{ "nvim-neotest/nvim-nio" },
 	{ "nvim-lualine/lualine.nvim", dependencies = { "nvim-tree/nvim-web-devicons" } },
 	{
@@ -77,6 +91,12 @@ local plugins = {
 		dependencies = { "nvim-lua/plenary.nvim" },
 	},
 	"kyazdani42/nvim-web-devicons",
+    {
+        'nvim-treesitter/nvim-treesitter',
+        tag = "v0.10.0",
+        lazy = false,
+        build = ':TSUpdate'
+    },
 	"wbthomason/packer.nvim",
 	"lewis6991/gitsigns.nvim",
 	{
