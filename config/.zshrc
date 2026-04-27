@@ -78,6 +78,14 @@ zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
 zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
 
+export function fj() {
+    echo $(paste_from_clipboard) | sed 's/\\"/"/g' | jq .
+}
+
+export function fjc() {
+    fj | copy_to_clipboard 
+}
+
 eval "$(fzf --zsh)"
 eval "$(zoxide init zsh)"
 eval "$(starship init zsh)"
