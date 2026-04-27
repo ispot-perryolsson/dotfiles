@@ -105,7 +105,8 @@ local plugins = {
     
       'nvim-treesitter/nvim-treesitter',
       lazy = false,
-      build = ':TSUpdate'
+      build = ':TSUpdate',
+      branch = 'main'
     },
 	"wbthomason/packer.nvim",
 	"lewis6991/gitsigns.nvim",
