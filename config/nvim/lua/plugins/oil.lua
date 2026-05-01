@@ -45,10 +45,6 @@ oil.setup({
 })
 vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
 vim.keymap.set("n", "<leader>e", function()
-  vim.api.nvim_open_win(0, true, {
-    split = 'left',
-    win = -1 -- -1 makes it a global split at the far left
-  })
   oil.open()
 end)
 function tprint(tbl, indent, result)

@@ -18,7 +18,7 @@ vim.g.mapleader = " "
 local theme_ok, theme = pcall(require, "plugins.theme")
 if not theme_ok then
 	-- Fallback to tokyonight if the theme symlink is missing
-	theme = { { "folke/tokyonight.nvim", lazy = false, priority = 1000, opts = { colorscheme = "tokyonight" } } }
+	theme = { { "olimorris/onedarkpro.nvim", lazy = false, priority = 1000, opts = { colorscheme = "onedark" } } }
 end
 
 local plugins = {
@@ -30,6 +30,7 @@ local plugins = {
     },
     "williamboman/mason.nvim",
     { "catppuccin/nvim", name = "catppuccin", priority = 1000 },
+    { "olimorris/onedarkpro.nvim", lazy = false, priority = 1000, opts = { colorscheme = "onedark" } },
     {
         "folke/tokyonight.nvim",
         lazy = false,
@@ -155,6 +156,24 @@ local plugins = {
 		},
 	},
 	{ "folke/neodev.nvim", opts = {} },
+    {
+        "3rd/image.nvim",
+        build = false,
+        opts = {
+            processor = "magick_cli",
+        }
+    },
+    {
+        "benlubas/molten-nvim",
+        version = "^1.0.0", -- use version <2.0.0 to avoid breaking changes
+        dependencies = { "3rd/image.nvim" },
+        build = ":UpdateRemotePlugins",
+        init = function()
+            -- these are examples, not defaults. Please see the readme
+            vim.g.molten_image_provider = "image.nvim"
+            vim.g.molten_output_win_max_height = 20
+        end,
+    },
     {
       "supermaven-inc/supermaven-nvim",
       config = function()
