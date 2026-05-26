@@ -36,6 +36,9 @@ local config = {
             }
         }
     },
+    on_attach = function(client)
+        client.server_capabilities.semanticTokensProvider = nil
+    end,
 }
 
 jdtls.start_or_attach(config)

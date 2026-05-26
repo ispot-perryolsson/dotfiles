@@ -184,6 +184,10 @@ local plugins = {
         })
       end,
     },
+    {
+      "OXY2DEV/markview.nvim",
+      lazy = false,
+    },
     require("plugins.metals")
 }
 local all_themes = require('all-themes')
