@@ -16,9 +16,9 @@ export PATH="$HOME/.local/bin:$HOME/.cargo/bin:$HOME/.tmuxifier/bin:$HOME/.local
 
 alias ls='eza -lh --group-directories-first --icons=auto'
 alias cd='z'
+alias cl='csvlens'
 alias penv='source .venv/bin/activate'
 alias pgenv='source ~/.virtualenvs/global/bin/activate'
-alias python='python3'
 alias lg='lazygit'
 alias e='exit'
 alias n='nvim'
