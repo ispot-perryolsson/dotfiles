@@ -13,7 +13,7 @@ M.register_lsp_keybinds = function(opts)
     vim.keymap.set('n', '<leader>D', vim.lsp.buf.type_definition, opts)
     vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, opts)
     vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, opts)
-    vim.keymap.set('n', 'gr', "<cmd>Telescope lsp_references<cr>", opts)
+    vim.keymap.set('n', 'gr', "<cmd>Telescope lsp_references<CR>", opts)
     vim.keymap.set("n", "<leader>f", vim.lsp.buf.format, opts)
 end
 
