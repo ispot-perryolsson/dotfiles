@@ -7,7 +7,6 @@ vim.g.mapleader = " "
 -- quit all
 vim.keymap.set("n", "<leader>q", ":qa<CR>", get_opts("quit all"))
 -- quit window
-vim.keymap.set("n", "<C-q>", "q", get_opts("quit"))
 vim.keymap.set("n", "q", ":q<CR>", get_opts("quit"))
 -- save
 vim.keymap.set("n", "<leader>s", ":w<CR>", get_opts("save file"))
