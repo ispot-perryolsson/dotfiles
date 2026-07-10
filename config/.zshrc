@@ -12,7 +12,7 @@ if [ ! -d "$ZINIT_HOME" ]; then
 fi
 source "${ZINIT_HOME}/zinit.zsh"
 
-export PATH="$HOME/.local/bin:$HOME/.cargo/bin:$HOME/.tmuxifier/bin:$HOME/.local/share/coursier/bin:$PATH"
+export PATH="$HOME/.local/bin:$HOME/.cargo/bin:$HOME/.tmuxifier/bin:$PATH"
 
 alias ls='eza -lh --group-directories-first --icons=auto'
 alias cd='z'
@@ -85,6 +85,10 @@ export function fj() {
 
 export function fjc() {
     fj | copy_to_clipboard 
+}
+
+export function sch() {
+    rg --json -C 2 $@ | delta
 }
 
 eval "$(fzf --zsh)"
