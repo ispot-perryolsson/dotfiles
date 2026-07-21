@@ -91,6 +91,29 @@ export function sch() {
     rg --json -C 2 $@ | delta
 }
 
+export function prs() {
+    gh pr list  | fzf | awk '{print $1}' | xargs gh pr checkout
+    export PR_BASE_BRANCH=$(gh pr view --json baseRefName --jq '.baseRefName')
+}
+
+export function prdiff() {
+    git diff "${PR_BASE_BRANCH}"... $@
+}
+
+export function prstat() {
+    git diff "${PR_BASE_BRANCH}"... --stat
+}
+
+export function prd() {
+    while true; do
+        file=$(git diff "${PR_BASE_BRANCH}"... --name-only | fzf --prompt="Select file (ESC to quit): ")
+        [ -z "$file" ] && break
+        git diff "${PR_BASE_BRANCH}"... -- "$file" | delta --paging=always
+        read -r -s -k 1 key < /dev/tty
+        [ "$key" = "e" ] && nvim "$file"
+    done
+}
+
 eval "$(fzf --zsh)"
 eval "$(zoxide init zsh)"
 eval "$(starship init zsh)"
