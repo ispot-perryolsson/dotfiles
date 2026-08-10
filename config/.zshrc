@@ -92,12 +92,13 @@ export function sch() {
 }
 
 export function prs() {
-    gh pr list  | fzf | awk '{print $1}' | xargs gh pr checkout
+    PR=$(gh pr list  | fzf | awk '{print $1}')
+    if [ -z "$PR" ]; then
+        return
+    fi
+    gh pr checkout "$PR"
     export PR_BASE_BRANCH=$(gh pr view --json baseRefName --jq '.baseRefName')
-}
-
-export function prdiff() {
-    git diff "${PR_BASE_BRANCH}"... $@
+    git fetch origin "${PR_BASE_BRANCH}"
 }
 
 export function prstat() {
@@ -105,10 +106,14 @@ export function prstat() {
 }
 
 export function prd() {
+    diff "${PR_BASE_BRANCH}"...
+}
+
+export function diff() {
     while true; do
-        file=$(git diff "${PR_BASE_BRANCH}"... --name-only | fzf --prompt="Select file (ESC to quit): ")
+        file=$(git diff $@ --stat=200 | fzf | awk '{print $1}')
         [ -z "$file" ] && break
-        git diff "${PR_BASE_BRANCH}"... -- "$file" | delta --paging=always
+        git diff $@ -- "$file" | delta --paging=always
         read -r -s -k 1 key < /dev/tty
         [ "$key" = "e" ] && nvim "$file"
     done
