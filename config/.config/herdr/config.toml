@@ -1,0 +1,127 @@
+# herdr configuration — ported from ~/.config/tmux/tmux.conf
+# See mapping notes at the bottom for tmux features that have no 1:1 equivalent.
+
+onboarding = false
+
+# ---------------------------------------------------------------------------
+# General (tmux: mouse, focus-events, clipboard, history, base-index, etc.)
+# ---------------------------------------------------------------------------
+# Most tmux "set -g" options are handled by herdr defaults or [ui]/[terminal]:
+#   - mouse on ............... [ui] mouse_capture = true (default)
+#   - set-clipboard on ....... herdr copies selections by default (copy_on_select)
+#   - focus-events on ........ handled internally by herdr
+#   - base-index 1 / renumber  herdr tabs are 1-indexed and renumber by default
+#   - default-terminal / RGB . herdr renders truecolor natively
+#   - history-limit 50000 .... see [advanced] scrollback_limit_bytes below
+[terminal]
+# New panes inherit the current pane's working directory (tmux: -c "#{pane_current_path}")
+new_cwd = "follow"
+
+[advanced]
+# tmux: set -g history-limit 50000. herdr uses a byte budget per pane.
+scrollback_limit_bytes = 10000000
+
+# ---------------------------------------------------------------------------
+# Keybindings (tmux: prefix C-Space + binds)
+# ---------------------------------------------------------------------------
+[keys]
+# tmux: set -g prefix C-Space
+prefix = "ctrl+space"
+
+# --- Config reload (tmux: bind q source-file) ---
+reload_config = "prefix+q"
+
+# --- Pane splits (tmux: bind v split -h, bind e split -v) ---
+split_horizontal = "prefix+v"   # tmux "v" = vertical divider = horizontal split in herdr terms
+split_vertical = "prefix+e"     # tmux "e" = horizontal divider = vertical split in herdr terms
+close_pane = "prefix+x"         # tmux: bind x kill-pane
+
+# --- Pane resize (tmux: bind -n M-h/j/k/l resize-pane) ---
+# Direct one-keystroke resize without entering resize mode, matching tmux's -n binds.
+resize_pane_left = "alt+h"
+resize_pane_down = "alt+j"
+resize_pane_up = "alt+k"
+resize_pane_right = "alt+l"
+resize_mode = "prefix+shift+z"  # explicit resize mode (prefix+r is used for rename below)
+
+# --- Tabs == tmux windows ---
+new_tab = "prefix+c"            # tmux: bind c new-window
+rename_tab = "prefix+r"         # tmux: bind r rename-window  (herdr renames the tab)
+switch_tab = "prefix+1..9"      # tmux: bind -n M-1..9 select-window (see indexed note)
+previous_tab = "prefix+p"       # tmux: (implicit) previous window
+next_tab = "prefix+n"           # tmux: (implicit) next window
+move_tab_previous = "alt+shift+left"   # tmux: bind -n M-S-Left swap-window -t -1
+move_tab_next = "alt+shift+right"      # tmux: bind -n M-S-Right swap-window -t +1
+close_tab = "prefix+shift+x"
+
+# --- Workspaces == tmux sessions ---
+new_workspace = "prefix+shift+c"    # tmux: bind C new-session
+rename_workspace = "prefix+shift+r" # tmux: bind R rename-session
+close_workspace = "prefix+shift+k"  # tmux: bind K kill-session
+workspace_picker = "prefix+w"
+previous_workspace = "prefix+shift+p"  # tmux: bind P switch-client -p
+next_workspace = "prefix+shift+n"      # tmux: bind N switch-client -n
+
+# --- Misc ---
+zoom = "prefix+z"
+toggle_sidebar = "prefix+b"
+edit_scrollback = "prefix+shift+e"   # herdr's copy/scrollback (prefix+e is split_vertical)
+
+# --- Seamless Vim/Neovim <-> herdr pane navigation ---
+# (tmux: christoomey/vim-tmux-navigator using C-h/j/k/l)
+# Bound below via the vim-herdr-navigation plugin actions so the same chord
+# moves between nvim splits when nvim is focused and between herdr panes otherwise.
+# focus_pane_* is left at defaults (prefix+h/j/k/l) as a prefix-based fallback.
+
+# ---------------------------------------------------------------------------
+# vim-herdr-navigation plugin actions (the nvim/multiplexer integration)
+# ---------------------------------------------------------------------------
+[[keys.command]]
+key = "ctrl+h"
+type = "plugin_action"
+command = "vim-herdr-navigation.left"
+description = "navigate left (vim/herdr)"
+
+[[keys.command]]
+key = "ctrl+j"
+type = "plugin_action"
+command = "vim-herdr-navigation.down"
+description = "navigate down (vim/herdr)"
+
+[[keys.command]]
+key = "ctrl+k"
+type = "plugin_action"
+command = "vim-herdr-navigation.up"
+description = "navigate up (vim/herdr)"
+
+[[keys.command]]
+key = "ctrl+l"
+type = "plugin_action"
+command = "vim-herdr-navigation.right"
+description = "navigate right (vim/herdr)"
+
+# ---------------------------------------------------------------------------
+# Notifications
+# ---------------------------------------------------------------------------
+[ui.toast]
+delivery = "herdr"
+
+# ===========================================================================
+# tmux features with NO direct herdr equivalent (documented, not ported):
+#
+#  - bind S setw synchronize-panes .... herdr has no pane-synchronized input.
+#  - tmux copy-mode-vi (v / y) ........ replaced by herdr scrollback + copy_on_select.
+#  - status bar theme (status-left/right, window-status-format, pane borders,
+#    colors) ........................... herdr uses built-in [theme] + [ui] tab_bar_right.
+#    Configure via [theme] name = "..." and [ui] tab_bar_right = [...] if desired.
+#  - TPM / tmux-yank / vim-tmux-navigator plugins ... herdr uses its own plugin
+#    system; navigation is provided by the vim-herdr-navigation plugin above.
+#  - bind -n M-Left/Right select-window (prev/next) ... herdr has no default
+#    direct-chord for prev/next tab; use prefix+p / prefix+n above, or add
+#    move_tab_*/switch_tab. Alt+arrow direct binds are terminal-dependent.
+#  - bind -n M-Up/Down switch-client ... mapped to prev/next workspace (prefix-based).
+#
+# Note on alt+ / direct chords: herdr docs warn alt+ and punctuation-with-mods
+# depend on your terminal/tmux. If M-h/j/k/l resize or alt+shift+arrow tab moves
+# don't register, switch them to prefix-based binds.
+# ===========================================================================

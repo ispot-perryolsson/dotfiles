@@ -21,7 +21,6 @@ end
 -- print working directory
 vim.keymap.set("n", "<leader>pd", print_working_directory, get_opts("Prints the working directory of the current buffer"))
 
-vim.keymap.set("n", "<C-L>", "nohl<CR><C-L>", opts)
 vim.keymap.set("n", "<leader>wv", "<C-W>v", opts)
 vim.keymap.set("n", "<leader>wc", "<C-W>s", opts)
 vim.keymap.set("n", "<leader>wd", ":lcd %:p:h<CR>", opts)
@@ -33,18 +32,15 @@ vim.keymap.set("n", "+", ":vertical res +15<CR>", opts)
 vim.keymap.set("n", "_", ":vertical res -15<CR>", opts)
 
 -- split movements
-vim.keymap.set("n", "<C-h>", ":TmuxNavigateLeft<CR>")
-vim.keymap.set("n", "<C-j>", ":TmuxNavigateDown<CR>")
-vim.keymap.set("n", "<C-k>", ":TmuxNavigateUp<CR>")
-vim.keymap.set("n", "<C-l>", ":TmuxNavigateRight<CR>")
-vim.keymap.set("i", "<C-h>", "<C-\\><C-N>:TmuxNavigateLeft<CR>", opts)
-vim.keymap.set("i", "<C-j>", "<C-\\><C-N>:TmuxNavigateDown<CR>", opts)
-vim.keymap.set("i", "<C-k>", "<C-\\><C-N>:TmuxNavigateUp<CR>", opts)
-vim.keymap.set("i", "<C-l>", "<C-\\><C-N>:TmuxNavigateRight<CR>", opts)
-vim.keymap.set("t", "<C-h>", "<C-\\><C-N>:TmuxNavigateLeft<CR>", opts)
-vim.keymap.set("t", "<C-j>", "<C-\\><C-N>:TmuxNavigateDown<CR>", opts)
-vim.keymap.set("t", "<C-k>", "<C-\\><C-N>:TmuxNavigateUp<CR>", opts)
-vim.keymap.set("t", "<C-l>", "<C-\\><C-N>:TmuxNavigateRight<CR>", opts)
+-- Normal-mode <C-h/j/k/l> are owned by vim-herdr-navigation (loaded via the
+-- vim-tmux-navigator spec in plugins.lua): they move between nvim splits, then
+-- cross into herdr panes at an edge (falling back to tmux when $TMUX is set).
+-- Here we add insert/terminal-mode wrappers that leave the mode and re-trigger
+-- the same normal-mode <C-h/j/k/l> maps, matching the previous tmux setup.
+for _, key in ipairs({ "<C-h>", "<C-j>", "<C-k>", "<C-l>" }) do
+    vim.keymap.set("i", key, "<C-\\><C-N>" .. key, opts)
+    vim.keymap.set("t", key, "<C-\\><C-N>" .. key, opts)
+end
 
 -- remap copy to clipboard
 vim.keymap.set("n", "<leader>yy", '"+yy', opts)

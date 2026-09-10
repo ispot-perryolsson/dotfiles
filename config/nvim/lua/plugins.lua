@@ -39,6 +39,13 @@ local plugins = {
     },
 	{
 		"christoomey/vim-tmux-navigator",
+		lazy = false,
+		-- Disable the plugin's own <C-h/j/k/l> mappings; vim-herdr-navigation
+		-- owns them and falls back to :TmuxNavigate* when $TMUX is set, so tmux
+		-- keeps working while herdr panes get seamless navigation too.
+		init = function()
+			vim.g.tmux_navigator_no_mappings = 1
+		end,
 		cmd = {
 			"TmuxNavigateLeft",
 			"TmuxNavigateDown",
@@ -47,13 +54,10 @@ local plugins = {
 			"TmuxNavigatePrevious",
 			"TmuxNavigatorProcessList",
 		},
-		keys = {
-			{ "<c-h>", "<cmd><C-U>TmuxNavigateLeft<cr>" },
-			{ "<c-j>", "<cmd><C-U>TmuxNavigateDown<cr>" },
-			{ "<c-k>", "<cmd><C-U>TmuxNavigateUp<cr>" },
-			{ "<c-l>", "<cmd><C-U>TmuxNavigateRight<cr>" },
-			{ "<c-\\>", "<cmd><C-U>TmuxNavigatePrevious<cr>" },
-		},
+		config = function()
+			-- Single source of truth for <C-h/j/k/l> navigation (herdr + tmux fallback).
+			dofile(vim.fn.expand("~/src/vim-herdr-navigation/editor/nvim.lua"))
+		end,
 	},
 	"b3nj5m1n/kommentary",
 	"rcarriga/nvim-dap-ui",

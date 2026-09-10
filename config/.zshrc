@@ -110,16 +110,26 @@ export function prd() {
 }
 
 export function diff() {
+    file=""
+    in_editor="false"
     while true; do
-        file=$(git diff $@ --stat=200 | fzf | awk '{print $1}')
+        if [ $in_editor = "false" ]; then
+            file=$(git diff $@ --stat=200 | fzf | awk '{print $1}')
+        fi
+        in_editor="false"
         [ -z "$file" ] && break
         git diff $@ -- "$file" | delta --paging=always
         read -r -s -k 1 key < /dev/tty
-        [ "$key" = "e" ] && nvim "$file"
+        if [ "$key" = "e" ]; then 
+            in_editor="true"
+            nvim "$file"
+        fi
     done
 }
+
 
 eval "$(fzf --zsh)"
 eval "$(zoxide init zsh)"
 eval "$(starship init zsh)"
 eval "$(mise activate zsh)"
+export PATH="$HOME/.honbu/bin:$PATH"
